@@ -11,9 +11,7 @@
         "skipLibCheck": true,
         "resolveJsonModule": true
     },
-    "include": [
-        "src"
-    ],
+   "include": ["src", "src/@types"],
     "paths": {
         "@/*": [
             "src/*"
