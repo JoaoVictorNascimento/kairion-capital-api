@@ -3,6 +3,7 @@ import cors from "@fastify/cors";
 import jwt from "@fastify/jwt";
 import sensible from "@fastify/sensible";
 import authenticatePlugin from "./plugins/authenticate.js";
+import errorHandlerPlugin from "./plugins/error-handler.js";
 
 import { env } from "../lib/env.js";
 import { healthRoutes } from "./routes/health.routes.js";
@@ -26,6 +27,7 @@ export async function buildApp() {
   });
 
   await app.register(authenticatePlugin);
+  await app.register(errorHandlerPlugin);
 
   await app.register(healthRoutes, { prefix: "/health" });
   await app.register(authRoutes, { prefix: "/auth" });
