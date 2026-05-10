@@ -388,6 +388,7 @@ export const ModelName = {
   Asset: 'Asset',
   Portfolio: 'Portfolio',
   PortfolioAsset: 'PortfolioAsset',
+  BacktestRun: 'BacktestRun',
   Candle: 'Candle'
 } as const
 
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "asset" | "portfolio" | "portfolioAsset" | "candle"
+    modelProps: "user" | "asset" | "portfolio" | "portfolioAsset" | "backtestRun" | "candle"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -704,6 +705,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    BacktestRun: {
+      payload: Prisma.$BacktestRunPayload<ExtArgs>
+      fields: Prisma.BacktestRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BacktestRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BacktestRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>
+        }
+        findFirst: {
+          args: Prisma.BacktestRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BacktestRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>
+        }
+        findMany: {
+          args: Prisma.BacktestRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>[]
+        }
+        create: {
+          args: Prisma.BacktestRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>
+        }
+        createMany: {
+          args: Prisma.BacktestRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BacktestRunCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>[]
+        }
+        delete: {
+          args: Prisma.BacktestRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>
+        }
+        update: {
+          args: Prisma.BacktestRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.BacktestRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BacktestRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BacktestRunUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>[]
+        }
+        upsert: {
+          args: Prisma.BacktestRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacktestRunPayload>
+        }
+        aggregate: {
+          args: Prisma.BacktestRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBacktestRun>
+        }
+        groupBy: {
+          args: Prisma.BacktestRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacktestRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BacktestRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacktestRunCountAggregateOutputType> | number
+        }
+      }
+    }
     Candle: {
       payload: Prisma.$CandlePayload<ExtArgs>
       fields: Prisma.CandleFieldRefs
@@ -868,6 +943,24 @@ export const PortfolioAssetScalarFieldEnum = {
 export type PortfolioAssetScalarFieldEnum = (typeof PortfolioAssetScalarFieldEnum)[keyof typeof PortfolioAssetScalarFieldEnum]
 
 
+export const BacktestRunScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  assetId: 'assetId',
+  strategy: 'strategy',
+  initialCapital: 'initialCapital',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  fastPeriod: 'fastPeriod',
+  slowPeriod: 'slowPeriod',
+  summary: 'summary',
+  series: 'series',
+  createdAt: 'createdAt'
+} as const
+
+export type BacktestRunScalarFieldEnum = (typeof BacktestRunScalarFieldEnum)[keyof typeof BacktestRunScalarFieldEnum]
+
+
 export const CandleScalarFieldEnum = {
   id: 'id',
   assetId: 'assetId',
@@ -892,6 +985,13 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -906,6 +1006,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -971,16 +1080,16 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
 
 
 /**
- * Reference to a field of type 'CandleInterval'
+ * Reference to a field of type 'BacktestStrategy'
  */
-export type EnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval'>
+export type EnumBacktestStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BacktestStrategy'>
     
 
 
 /**
- * Reference to a field of type 'CandleInterval[]'
+ * Reference to a field of type 'BacktestStrategy[]'
  */
-export type ListEnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval[]'>
+export type ListEnumBacktestStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BacktestStrategy[]'>
     
 
 
@@ -995,6 +1104,48 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'CandleInterval'
+ */
+export type EnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval'>
+    
+
+
+/**
+ * Reference to a field of type 'CandleInterval[]'
+ */
+export type ListEnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -1096,6 +1247,7 @@ export type GlobalOmitConfig = {
   asset?: Prisma.AssetOmit
   portfolio?: Prisma.PortfolioOmit
   portfolioAsset?: Prisma.PortfolioAssetOmit
+  backtestRun?: Prisma.BacktestRunOmit
   candle?: Prisma.CandleOmit
 }
 
