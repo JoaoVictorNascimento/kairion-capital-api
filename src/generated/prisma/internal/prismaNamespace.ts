@@ -386,6 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Asset: 'Asset',
+  Portfolio: 'Portfolio',
+  PortfolioAsset: 'PortfolioAsset',
   Candle: 'Candle'
 } as const
 
@@ -402,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "asset" | "candle"
+    modelProps: "user" | "asset" | "portfolio" | "portfolioAsset" | "candle"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -554,6 +556,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Portfolio: {
+      payload: Prisma.$PortfolioPayload<ExtArgs>
+      fields: Prisma.PortfolioFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PortfolioFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PortfolioFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>
+        }
+        findFirst: {
+          args: Prisma.PortfolioFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PortfolioFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>
+        }
+        findMany: {
+          args: Prisma.PortfolioFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>[]
+        }
+        create: {
+          args: Prisma.PortfolioCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>
+        }
+        createMany: {
+          args: Prisma.PortfolioCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PortfolioCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>[]
+        }
+        delete: {
+          args: Prisma.PortfolioDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>
+        }
+        update: {
+          args: Prisma.PortfolioUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>
+        }
+        deleteMany: {
+          args: Prisma.PortfolioDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PortfolioUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PortfolioUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>[]
+        }
+        upsert: {
+          args: Prisma.PortfolioUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioPayload>
+        }
+        aggregate: {
+          args: Prisma.PortfolioAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePortfolio>
+        }
+        groupBy: {
+          args: Prisma.PortfolioGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortfolioGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PortfolioCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortfolioCountAggregateOutputType> | number
+        }
+      }
+    }
+    PortfolioAsset: {
+      payload: Prisma.$PortfolioAssetPayload<ExtArgs>
+      fields: Prisma.PortfolioAssetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PortfolioAssetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PortfolioAssetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>
+        }
+        findFirst: {
+          args: Prisma.PortfolioAssetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PortfolioAssetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>
+        }
+        findMany: {
+          args: Prisma.PortfolioAssetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>[]
+        }
+        create: {
+          args: Prisma.PortfolioAssetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>
+        }
+        createMany: {
+          args: Prisma.PortfolioAssetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PortfolioAssetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>[]
+        }
+        delete: {
+          args: Prisma.PortfolioAssetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>
+        }
+        update: {
+          args: Prisma.PortfolioAssetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>
+        }
+        deleteMany: {
+          args: Prisma.PortfolioAssetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PortfolioAssetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PortfolioAssetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>[]
+        }
+        upsert: {
+          args: Prisma.PortfolioAssetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioAssetPayload>
+        }
+        aggregate: {
+          args: Prisma.PortfolioAssetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePortfolioAsset>
+        }
+        groupBy: {
+          args: Prisma.PortfolioAssetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortfolioAssetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PortfolioAssetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortfolioAssetCountAggregateOutputType> | number
+        }
+      }
+    }
     Candle: {
       payload: Prisma.$CandlePayload<ExtArgs>
       fields: Prisma.CandleFieldRefs
@@ -693,6 +843,31 @@ export const AssetScalarFieldEnum = {
 export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
 
 
+export const PortfolioScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PortfolioScalarFieldEnum = (typeof PortfolioScalarFieldEnum)[keyof typeof PortfolioScalarFieldEnum]
+
+
+export const PortfolioAssetScalarFieldEnum = {
+  id: 'id',
+  portfolioId: 'portfolioId',
+  assetId: 'assetId',
+  targetWeight: 'targetWeight',
+  quantity: 'quantity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PortfolioAssetScalarFieldEnum = (typeof PortfolioAssetScalarFieldEnum)[keyof typeof PortfolioAssetScalarFieldEnum]
+
+
 export const CandleScalarFieldEnum = {
   id: 'id',
   assetId: 'assetId',
@@ -723,6 +898,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -774,20 +957,6 @@ export type ListEnumAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 
 
 /**
- * Reference to a field of type 'CandleInterval'
- */
-export type EnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval'>
-    
-
-
-/**
- * Reference to a field of type 'CandleInterval[]'
- */
-export type ListEnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval[]'>
-    
-
-
-/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -798,6 +967,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CandleInterval'
+ */
+export type EnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval'>
+    
+
+
+/**
+ * Reference to a field of type 'CandleInterval[]'
+ */
+export type ListEnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval[]'>
     
 
 
@@ -911,6 +1094,8 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   asset?: Prisma.AssetOmit
+  portfolio?: Prisma.PortfolioOmit
+  portfolioAsset?: Prisma.PortfolioAssetOmit
   candle?: Prisma.CandleOmit
 }
 

@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Asset: 'Asset',
+  Portfolio: 'Portfolio',
+  PortfolioAsset: 'PortfolioAsset',
   Candle: 'Candle'
 } as const
 
@@ -98,6 +100,31 @@ export const AssetScalarFieldEnum = {
 export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
 
 
+export const PortfolioScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PortfolioScalarFieldEnum = (typeof PortfolioScalarFieldEnum)[keyof typeof PortfolioScalarFieldEnum]
+
+
+export const PortfolioAssetScalarFieldEnum = {
+  id: 'id',
+  portfolioId: 'portfolioId',
+  assetId: 'assetId',
+  targetWeight: 'targetWeight',
+  quantity: 'quantity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PortfolioAssetScalarFieldEnum = (typeof PortfolioAssetScalarFieldEnum)[keyof typeof PortfolioAssetScalarFieldEnum]
+
+
 export const CandleScalarFieldEnum = {
   id: 'id',
   assetId: 'assetId',
@@ -128,4 +155,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

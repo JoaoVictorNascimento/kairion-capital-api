@@ -207,6 +207,7 @@ export type AssetWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   candles?: Prisma.CandleListRelationFilter
+  portfolioAssets?: Prisma.PortfolioAssetListRelationFilter
 }
 
 export type AssetOrderByWithRelationInput = {
@@ -219,6 +220,7 @@ export type AssetOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   candles?: Prisma.CandleOrderByRelationAggregateInput
+  portfolioAssets?: Prisma.PortfolioAssetOrderByRelationAggregateInput
 }
 
 export type AssetWhereUniqueInput = Prisma.AtLeast<{
@@ -235,6 +237,7 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   candles?: Prisma.CandleListRelationFilter
+  portfolioAssets?: Prisma.PortfolioAssetListRelationFilter
 }, "id" | "symbol_exchange">
 
 export type AssetOrderByWithAggregationInput = {
@@ -275,6 +278,7 @@ export type AssetCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   candles?: Prisma.CandleCreateNestedManyWithoutAssetInput
+  portfolioAssets?: Prisma.PortfolioAssetCreateNestedManyWithoutAssetInput
 }
 
 export type AssetUncheckedCreateInput = {
@@ -287,6 +291,7 @@ export type AssetUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   candles?: Prisma.CandleUncheckedCreateNestedManyWithoutAssetInput
+  portfolioAssets?: Prisma.PortfolioAssetUncheckedCreateNestedManyWithoutAssetInput
 }
 
 export type AssetUpdateInput = {
@@ -299,6 +304,7 @@ export type AssetUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   candles?: Prisma.CandleUpdateManyWithoutAssetNestedInput
+  portfolioAssets?: Prisma.PortfolioAssetUpdateManyWithoutAssetNestedInput
 }
 
 export type AssetUncheckedUpdateInput = {
@@ -311,6 +317,7 @@ export type AssetUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   candles?: Prisma.CandleUncheckedUpdateManyWithoutAssetNestedInput
+  portfolioAssets?: Prisma.PortfolioAssetUncheckedUpdateManyWithoutAssetNestedInput
 }
 
 export type AssetCreateManyInput = {
@@ -393,6 +400,20 @@ export type EnumAssetTypeFieldUpdateOperationsInput = {
   set?: $Enums.AssetType
 }
 
+export type AssetCreateNestedOneWithoutPortfolioAssetsInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutPortfolioAssetsInput, Prisma.AssetUncheckedCreateWithoutPortfolioAssetsInput>
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutPortfolioAssetsInput
+  connect?: Prisma.AssetWhereUniqueInput
+}
+
+export type AssetUpdateOneRequiredWithoutPortfolioAssetsNestedInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutPortfolioAssetsInput, Prisma.AssetUncheckedCreateWithoutPortfolioAssetsInput>
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutPortfolioAssetsInput
+  upsert?: Prisma.AssetUpsertWithoutPortfolioAssetsInput
+  connect?: Prisma.AssetWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssetUpdateToOneWithWhereWithoutPortfolioAssetsInput, Prisma.AssetUpdateWithoutPortfolioAssetsInput>, Prisma.AssetUncheckedUpdateWithoutPortfolioAssetsInput>
+}
+
 export type AssetCreateNestedOneWithoutCandlesInput = {
   create?: Prisma.XOR<Prisma.AssetCreateWithoutCandlesInput, Prisma.AssetUncheckedCreateWithoutCandlesInput>
   connectOrCreate?: Prisma.AssetCreateOrConnectWithoutCandlesInput
@@ -407,6 +428,70 @@ export type AssetUpdateOneRequiredWithoutCandlesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AssetUpdateToOneWithWhereWithoutCandlesInput, Prisma.AssetUpdateWithoutCandlesInput>, Prisma.AssetUncheckedUpdateWithoutCandlesInput>
 }
 
+export type AssetCreateWithoutPortfolioAssetsInput = {
+  id?: string
+  symbol: string
+  name: string
+  type?: $Enums.AssetType
+  exchange: string
+  currency: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  candles?: Prisma.CandleCreateNestedManyWithoutAssetInput
+}
+
+export type AssetUncheckedCreateWithoutPortfolioAssetsInput = {
+  id?: string
+  symbol: string
+  name: string
+  type?: $Enums.AssetType
+  exchange: string
+  currency: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  candles?: Prisma.CandleUncheckedCreateNestedManyWithoutAssetInput
+}
+
+export type AssetCreateOrConnectWithoutPortfolioAssetsInput = {
+  where: Prisma.AssetWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssetCreateWithoutPortfolioAssetsInput, Prisma.AssetUncheckedCreateWithoutPortfolioAssetsInput>
+}
+
+export type AssetUpsertWithoutPortfolioAssetsInput = {
+  update: Prisma.XOR<Prisma.AssetUpdateWithoutPortfolioAssetsInput, Prisma.AssetUncheckedUpdateWithoutPortfolioAssetsInput>
+  create: Prisma.XOR<Prisma.AssetCreateWithoutPortfolioAssetsInput, Prisma.AssetUncheckedCreateWithoutPortfolioAssetsInput>
+  where?: Prisma.AssetWhereInput
+}
+
+export type AssetUpdateToOneWithWhereWithoutPortfolioAssetsInput = {
+  where?: Prisma.AssetWhereInput
+  data: Prisma.XOR<Prisma.AssetUpdateWithoutPortfolioAssetsInput, Prisma.AssetUncheckedUpdateWithoutPortfolioAssetsInput>
+}
+
+export type AssetUpdateWithoutPortfolioAssetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+  exchange?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candles?: Prisma.CandleUpdateManyWithoutAssetNestedInput
+}
+
+export type AssetUncheckedUpdateWithoutPortfolioAssetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+  exchange?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candles?: Prisma.CandleUncheckedUpdateManyWithoutAssetNestedInput
+}
+
 export type AssetCreateWithoutCandlesInput = {
   id?: string
   symbol: string
@@ -416,6 +501,7 @@ export type AssetCreateWithoutCandlesInput = {
   currency: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  portfolioAssets?: Prisma.PortfolioAssetCreateNestedManyWithoutAssetInput
 }
 
 export type AssetUncheckedCreateWithoutCandlesInput = {
@@ -427,6 +513,7 @@ export type AssetUncheckedCreateWithoutCandlesInput = {
   currency: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  portfolioAssets?: Prisma.PortfolioAssetUncheckedCreateNestedManyWithoutAssetInput
 }
 
 export type AssetCreateOrConnectWithoutCandlesInput = {
@@ -454,6 +541,7 @@ export type AssetUpdateWithoutCandlesInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portfolioAssets?: Prisma.PortfolioAssetUpdateManyWithoutAssetNestedInput
 }
 
 export type AssetUncheckedUpdateWithoutCandlesInput = {
@@ -465,6 +553,7 @@ export type AssetUncheckedUpdateWithoutCandlesInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portfolioAssets?: Prisma.PortfolioAssetUncheckedUpdateManyWithoutAssetNestedInput
 }
 
 
@@ -474,10 +563,12 @@ export type AssetUncheckedUpdateWithoutCandlesInput = {
 
 export type AssetCountOutputType = {
   candles: number
+  portfolioAssets: number
 }
 
 export type AssetCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   candles?: boolean | AssetCountOutputTypeCountCandlesArgs
+  portfolioAssets?: boolean | AssetCountOutputTypeCountPortfolioAssetsArgs
 }
 
 /**
@@ -497,6 +588,13 @@ export type AssetCountOutputTypeCountCandlesArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.CandleWhereInput
 }
 
+/**
+ * AssetCountOutputType without action
+ */
+export type AssetCountOutputTypeCountPortfolioAssetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PortfolioAssetWhereInput
+}
+
 
 export type AssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -508,6 +606,7 @@ export type AssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdAt?: boolean
   updatedAt?: boolean
   candles?: boolean | Prisma.Asset$candlesArgs<ExtArgs>
+  portfolioAssets?: boolean | Prisma.Asset$portfolioAssetsArgs<ExtArgs>
   _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["asset"]>
 
@@ -547,6 +646,7 @@ export type AssetSelectScalar = {
 export type AssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "symbol" | "name" | "type" | "exchange" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["asset"]>
 export type AssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   candles?: boolean | Prisma.Asset$candlesArgs<ExtArgs>
+  portfolioAssets?: boolean | Prisma.Asset$portfolioAssetsArgs<ExtArgs>
   _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -556,6 +656,7 @@ export type $AssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Asset"
   objects: {
     candles: Prisma.$CandlePayload<ExtArgs>[]
+    portfolioAssets: Prisma.$PortfolioAssetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -961,6 +1062,7 @@ readonly fields: AssetFieldRefs;
 export interface Prisma__AssetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   candles<T extends Prisma.Asset$candlesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Asset$candlesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CandlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  portfolioAssets<T extends Prisma.Asset$portfolioAssetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Asset$portfolioAssetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortfolioAssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1412,6 +1514,30 @@ export type Asset$candlesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.CandleScalarFieldEnum | Prisma.CandleScalarFieldEnum[]
+}
+
+/**
+ * Asset.portfolioAssets
+ */
+export type Asset$portfolioAssetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PortfolioAsset
+   */
+  select?: Prisma.PortfolioAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PortfolioAsset
+   */
+  omit?: Prisma.PortfolioAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PortfolioAssetInclude<ExtArgs> | null
+  where?: Prisma.PortfolioAssetWhereInput
+  orderBy?: Prisma.PortfolioAssetOrderByWithRelationInput | Prisma.PortfolioAssetOrderByWithRelationInput[]
+  cursor?: Prisma.PortfolioAssetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PortfolioAssetScalarFieldEnum | Prisma.PortfolioAssetScalarFieldEnum[]
 }
 
 /**

@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
+  id           String      @id @default(cuid())
   name         String
-  email        String   @unique
+  email        String      @unique
   passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  portfolios   Portfolio[]
 }
 
 enum AssetType {
@@ -28,19 +29,49 @@ enum AssetType {
 }
 
 model Asset {
-  id        String    @id @default(cuid())
-  symbol    String
-  name      String
-  type      AssetType @default(OTHER)
-  exchange  String
-  currency  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  candles   Candle[]
+  id              String           @id @default(cuid())
+  symbol          String
+  name            String
+  type            AssetType        @default(OTHER)
+  exchange        String
+  currency        String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  candles         Candle[]
+  portfolioAssets PortfolioAsset[]
 
   @@unique([symbol, exchange])
   @@index([symbol])
   @@index([exchange])
+}
+
+model Portfolio {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  assets      PortfolioAsset[]
+
+  @@index([userId])
+}
+
+model PortfolioAsset {
+  id            String    @id @default(cuid())
+  portfolioId   String
+  portfolio     Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  assetId       String
+  asset         Asset     @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  targetWeight  Decimal?  @db.Decimal(12, 8)
+  quantity      Decimal?  @db.Decimal(24, 8)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([portfolioId, assetId])
+  @@index([portfolioId])
+  @@index([assetId])
 }
 
 enum CandleInterval {
