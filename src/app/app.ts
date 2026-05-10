@@ -10,6 +10,7 @@ import { healthRoutes } from "./routes/health.routes.js";
 import { authRoutes } from "../modules/auth/routes.js";
 import { usersRoutes } from "../modules/users/routes.js";
 import { assetsRoutes } from "../modules/assets/routes.js";
+import { portfoliosRoutes } from "../modules/portfolios/routes.js";
 
 export async function buildApp() {
   const app = Fastify({
@@ -33,6 +34,7 @@ export async function buildApp() {
   await app.register(authRoutes, { prefix: "/auth" });
   await app.register(usersRoutes, { prefix: "/users" });
   await app.register(assetsRoutes, { prefix: "/assets" });
+  await app.register(portfoliosRoutes, { prefix: "/portfolios" });
 
   return app;
 }
