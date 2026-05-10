@@ -15,3 +15,29 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+enum AssetType {
+  STOCK
+  ETF
+  CRYPTO
+  FX
+  INDEX
+  FUND
+  BOND
+  OTHER
+}
+
+model Asset {
+  id        String    @id @default(cuid())
+  symbol    String
+  name      String
+  type      AssetType @default(OTHER)
+  exchange  String
+  currency  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([symbol, exchange])
+  @@index([symbol])
+  @@index([exchange])
+}
