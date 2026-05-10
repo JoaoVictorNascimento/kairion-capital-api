@@ -83,7 +83,7 @@ export async function listCandlesByAssetAndRange(params: {
   });
 }
 
-const ANALYTICS_MAX_CANDLES = 4000;
+export const ANALYTICS_MAX_CANDLES = 4000;
 
 /**
  * Daily closes in [from, to] (inclusive on bucketStart), ascending, capped for analytics memory.
