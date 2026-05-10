@@ -82,3 +82,32 @@ export async function listCandlesByAssetAndRange(params: {
     take: Math.min(take, 2000),
   });
 }
+
+const ANALYTICS_MAX_CANDLES = 4000;
+
+/**
+ * Daily closes in [from, to] (inclusive on bucketStart), ascending, capped for analytics memory.
+ */
+export async function listDailyClosesInRange(params: {
+  assetId: string;
+  interval: CandleInterval;
+  from: Date;
+  to: Date;
+}) {
+  return prisma.candle.findMany({
+    where: {
+      assetId: params.assetId,
+      interval: params.interval,
+      bucketStart: {
+        gte: params.from,
+        lte: params.to,
+      },
+    },
+    orderBy: { bucketStart: "asc" },
+    take: ANALYTICS_MAX_CANDLES,
+    select: {
+      bucketStart: true,
+      close: true,
+    },
+  });
+}
