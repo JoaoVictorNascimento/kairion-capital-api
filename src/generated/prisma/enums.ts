@@ -9,7 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const AssetType = {
+  STOCK: 'STOCK',
+  ETF: 'ETF',
+  CRYPTO: 'CRYPTO',
+  FX: 'FX',
+  INDEX: 'INDEX',
+  FUND: 'FUND',
+  BOND: 'BOND',
+  OTHER: 'OTHER'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type AssetType = (typeof AssetType)[keyof typeof AssetType]
