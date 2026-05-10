@@ -206,6 +206,7 @@ export type AssetWhereInput = {
   currency?: Prisma.StringFilter<"Asset"> | string
   createdAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
+  candles?: Prisma.CandleListRelationFilter
 }
 
 export type AssetOrderByWithRelationInput = {
@@ -217,6 +218,7 @@ export type AssetOrderByWithRelationInput = {
   currency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  candles?: Prisma.CandleOrderByRelationAggregateInput
 }
 
 export type AssetWhereUniqueInput = Prisma.AtLeast<{
@@ -232,6 +234,7 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<{
   currency?: Prisma.StringFilter<"Asset"> | string
   createdAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
+  candles?: Prisma.CandleListRelationFilter
 }, "id" | "symbol_exchange">
 
 export type AssetOrderByWithAggregationInput = {
@@ -271,6 +274,7 @@ export type AssetCreateInput = {
   currency: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  candles?: Prisma.CandleCreateNestedManyWithoutAssetInput
 }
 
 export type AssetUncheckedCreateInput = {
@@ -282,6 +286,7 @@ export type AssetUncheckedCreateInput = {
   currency: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  candles?: Prisma.CandleUncheckedCreateNestedManyWithoutAssetInput
 }
 
 export type AssetUpdateInput = {
@@ -293,6 +298,7 @@ export type AssetUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candles?: Prisma.CandleUpdateManyWithoutAssetNestedInput
 }
 
 export type AssetUncheckedUpdateInput = {
@@ -304,6 +310,7 @@ export type AssetUncheckedUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  candles?: Prisma.CandleUncheckedUpdateManyWithoutAssetNestedInput
 }
 
 export type AssetCreateManyInput = {
@@ -377,10 +384,118 @@ export type AssetMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type AssetScalarRelationFilter = {
+  is?: Prisma.AssetWhereInput
+  isNot?: Prisma.AssetWhereInput
+}
+
 export type EnumAssetTypeFieldUpdateOperationsInput = {
   set?: $Enums.AssetType
 }
 
+export type AssetCreateNestedOneWithoutCandlesInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutCandlesInput, Prisma.AssetUncheckedCreateWithoutCandlesInput>
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutCandlesInput
+  connect?: Prisma.AssetWhereUniqueInput
+}
+
+export type AssetUpdateOneRequiredWithoutCandlesNestedInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutCandlesInput, Prisma.AssetUncheckedCreateWithoutCandlesInput>
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutCandlesInput
+  upsert?: Prisma.AssetUpsertWithoutCandlesInput
+  connect?: Prisma.AssetWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssetUpdateToOneWithWhereWithoutCandlesInput, Prisma.AssetUpdateWithoutCandlesInput>, Prisma.AssetUncheckedUpdateWithoutCandlesInput>
+}
+
+export type AssetCreateWithoutCandlesInput = {
+  id?: string
+  symbol: string
+  name: string
+  type?: $Enums.AssetType
+  exchange: string
+  currency: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AssetUncheckedCreateWithoutCandlesInput = {
+  id?: string
+  symbol: string
+  name: string
+  type?: $Enums.AssetType
+  exchange: string
+  currency: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AssetCreateOrConnectWithoutCandlesInput = {
+  where: Prisma.AssetWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssetCreateWithoutCandlesInput, Prisma.AssetUncheckedCreateWithoutCandlesInput>
+}
+
+export type AssetUpsertWithoutCandlesInput = {
+  update: Prisma.XOR<Prisma.AssetUpdateWithoutCandlesInput, Prisma.AssetUncheckedUpdateWithoutCandlesInput>
+  create: Prisma.XOR<Prisma.AssetCreateWithoutCandlesInput, Prisma.AssetUncheckedCreateWithoutCandlesInput>
+  where?: Prisma.AssetWhereInput
+}
+
+export type AssetUpdateToOneWithWhereWithoutCandlesInput = {
+  where?: Prisma.AssetWhereInput
+  data: Prisma.XOR<Prisma.AssetUpdateWithoutCandlesInput, Prisma.AssetUncheckedUpdateWithoutCandlesInput>
+}
+
+export type AssetUpdateWithoutCandlesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+  exchange?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AssetUncheckedUpdateWithoutCandlesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAssetTypeFieldUpdateOperationsInput | $Enums.AssetType
+  exchange?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type AssetCountOutputType
+ */
+
+export type AssetCountOutputType = {
+  candles: number
+}
+
+export type AssetCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  candles?: boolean | AssetCountOutputTypeCountCandlesArgs
+}
+
+/**
+ * AssetCountOutputType without action
+ */
+export type AssetCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssetCountOutputType
+   */
+  select?: Prisma.AssetCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AssetCountOutputType without action
+ */
+export type AssetCountOutputTypeCountCandlesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CandleWhereInput
+}
 
 
 export type AssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -392,6 +507,8 @@ export type AssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   currency?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  candles?: boolean | Prisma.Asset$candlesArgs<ExtArgs>
+  _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["asset"]>
 
 export type AssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -428,10 +545,18 @@ export type AssetSelectScalar = {
 }
 
 export type AssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "symbol" | "name" | "type" | "exchange" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["asset"]>
+export type AssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  candles?: boolean | Prisma.Asset$candlesArgs<ExtArgs>
+  _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type AssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type AssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $AssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Asset"
-  objects: {}
+  objects: {
+    candles: Prisma.$CandlePayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     symbol: string
@@ -835,6 +960,7 @@ readonly fields: AssetFieldRefs;
  */
 export interface Prisma__AssetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  candles<T extends Prisma.Asset$candlesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Asset$candlesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CandlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -889,6 +1015,10 @@ export type AssetFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
+  /**
    * Filter, which Asset to fetch.
    */
   where: Prisma.AssetWhereUniqueInput
@@ -907,6 +1037,10 @@ export type AssetFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
+  /**
    * Filter, which Asset to fetch.
    */
   where: Prisma.AssetWhereUniqueInput
@@ -924,6 +1058,10 @@ export type AssetFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Asset
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
   /**
    * Filter, which Asset to fetch.
    */
@@ -973,6 +1111,10 @@ export type AssetFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
+  /**
    * Filter, which Asset to fetch.
    */
   where?: Prisma.AssetWhereInput
@@ -1020,6 +1162,10 @@ export type AssetFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Asset
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
   /**
    * Filter, which Assets to fetch.
    */
@@ -1069,6 +1215,10 @@ export type AssetCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
+  /**
    * The data needed to create a Asset.
    */
   data: Prisma.XOR<Prisma.AssetCreateInput, Prisma.AssetUncheckedCreateInput>
@@ -1116,6 +1266,10 @@ export type AssetUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Asset
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
   /**
    * The data needed to update a Asset.
    */
@@ -1183,6 +1337,10 @@ export type AssetUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
+  /**
    * The filter to search for the Asset to update in case it exists.
    */
   where: Prisma.AssetWhereUniqueInput
@@ -1209,6 +1367,10 @@ export type AssetDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
+  /**
    * Filter which Asset to delete.
    */
   where: Prisma.AssetWhereUniqueInput
@@ -1229,6 +1391,30 @@ export type AssetDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Asset.candles
+ */
+export type Asset$candlesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Candle
+   */
+  select?: Prisma.CandleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Candle
+   */
+  omit?: Prisma.CandleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CandleInclude<ExtArgs> | null
+  where?: Prisma.CandleWhereInput
+  orderBy?: Prisma.CandleOrderByWithRelationInput | Prisma.CandleOrderByWithRelationInput[]
+  cursor?: Prisma.CandleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CandleScalarFieldEnum | Prisma.CandleScalarFieldEnum[]
+}
+
+/**
  * Asset without action
  */
 export type AssetDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1240,4 +1426,8 @@ export type AssetDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Asset
    */
   omit?: Prisma.AssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetInclude<ExtArgs> | null
 }

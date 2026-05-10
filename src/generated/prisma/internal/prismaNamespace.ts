@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  Asset: 'Asset'
+  Asset: 'Asset',
+  Candle: 'Candle'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "asset"
+    modelProps: "user" | "asset" | "candle"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Candle: {
+      payload: Prisma.$CandlePayload<ExtArgs>
+      fields: Prisma.CandleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CandleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CandleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>
+        }
+        findFirst: {
+          args: Prisma.CandleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CandleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>
+        }
+        findMany: {
+          args: Prisma.CandleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>[]
+        }
+        create: {
+          args: Prisma.CandleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>
+        }
+        createMany: {
+          args: Prisma.CandleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CandleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>[]
+        }
+        delete: {
+          args: Prisma.CandleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>
+        }
+        update: {
+          args: Prisma.CandleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>
+        }
+        deleteMany: {
+          args: Prisma.CandleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CandleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CandleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>[]
+        }
+        upsert: {
+          args: Prisma.CandleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandlePayload>
+        }
+        aggregate: {
+          args: Prisma.CandleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCandle>
+        }
+        groupBy: {
+          args: Prisma.CandleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CandleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CandleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CandleCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -618,6 +693,22 @@ export const AssetScalarFieldEnum = {
 export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
 
 
+export const CandleScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  interval: 'interval',
+  bucketStart: 'bucketStart',
+  open: 'open',
+  high: 'high',
+  low: 'low',
+  close: 'close',
+  volume: 'volume',
+  createdAt: 'createdAt'
+} as const
+
+export type CandleScalarFieldEnum = (typeof CandleScalarFieldEnum)[keyof typeof CandleScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -679,6 +770,34 @@ export type EnumAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
  * Reference to a field of type 'AssetType[]'
  */
 export type ListEnumAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CandleInterval'
+ */
+export type EnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval'>
+    
+
+
+/**
+ * Reference to a field of type 'CandleInterval[]'
+ */
+export type ListEnumCandleIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandleInterval[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -792,6 +911,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   asset?: Prisma.AssetOmit
+  candle?: Prisma.CandleOmit
 }
 
 /* Types for Logging */
