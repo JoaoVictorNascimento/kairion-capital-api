@@ -28,3 +28,10 @@ export const CandleInterval = {
 } as const
 
 export type CandleInterval = (typeof CandleInterval)[keyof typeof CandleInterval]
+
+
+export const BacktestStrategy = {
+  MOVING_AVERAGE_CROSSOVER: 'MOVING_AVERAGE_CROSSOVER'
+} as const
+
+export type BacktestStrategy = (typeof BacktestStrategy)[keyof typeof BacktestStrategy]

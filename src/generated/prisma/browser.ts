@@ -38,6 +38,11 @@ export type Portfolio = Prisma.PortfolioModel
  */
 export type PortfolioAsset = Prisma.PortfolioAssetModel
 /**
+ * Model BacktestRun
+ * 
+ */
+export type BacktestRun = Prisma.BacktestRunModel
+/**
  * Model Candle
  * 
  */

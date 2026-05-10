@@ -55,6 +55,7 @@ export const ModelName = {
   Asset: 'Asset',
   Portfolio: 'Portfolio',
   PortfolioAsset: 'PortfolioAsset',
+  BacktestRun: 'BacktestRun',
   Candle: 'Candle'
 } as const
 
@@ -125,6 +126,24 @@ export const PortfolioAssetScalarFieldEnum = {
 export type PortfolioAssetScalarFieldEnum = (typeof PortfolioAssetScalarFieldEnum)[keyof typeof PortfolioAssetScalarFieldEnum]
 
 
+export const BacktestRunScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  assetId: 'assetId',
+  strategy: 'strategy',
+  initialCapital: 'initialCapital',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  fastPeriod: 'fastPeriod',
+  slowPeriod: 'slowPeriod',
+  summary: 'summary',
+  series: 'series',
+  createdAt: 'createdAt'
+} as const
+
+export type BacktestRunScalarFieldEnum = (typeof BacktestRunScalarFieldEnum)[keyof typeof BacktestRunScalarFieldEnum]
+
+
 export const CandleScalarFieldEnum = {
   id: 'id',
   assetId: 'assetId',
@@ -149,6 +168,13 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -163,4 +189,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
