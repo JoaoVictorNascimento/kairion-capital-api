@@ -6,6 +6,8 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3333),
   DATABASE_URL: z.string().min(1),
   JWT_SECRET: z.string().min(1),
+  /** API key for https://www.alphavantage.co (market data sync). */
+  ALPHA_VANTAGE_API_KEY: z.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);
