@@ -52,6 +52,16 @@ export type User = Prisma.UserModel
  */
 export type Asset = Prisma.AssetModel
 /**
+ * Model Portfolio
+ * 
+ */
+export type Portfolio = Prisma.PortfolioModel
+/**
+ * Model PortfolioAsset
+ * 
+ */
+export type PortfolioAsset = Prisma.PortfolioAssetModel
+/**
  * Model Candle
  * 
  */
