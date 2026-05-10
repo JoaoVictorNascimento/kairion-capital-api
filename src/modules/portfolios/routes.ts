@@ -1,4 +1,11 @@
 import { FastifyInstance } from "fastify";
+import { metricsQuerySchema } from "../analytics/schemas/analytics.schemas.js";
+import {
+  CurrencyMismatchError,
+  InsufficientPriceDataError,
+  MixedPortfolioAllocationError,
+} from "../analytics/services/errors.js";
+import { getPortfolioMetricsService } from "../analytics/services/get-portfolio-metrics.service.js";
 import {
   addPortfolioAssetBodySchema,
   createPortfolioBodySchema,
@@ -84,6 +91,35 @@ export async function portfoliosRoutes(app: FastifyInstance) {
         }
         if (err instanceof PortfolioAssetNotFoundError) {
           return reply.status(404).send({ message: err.message });
+        }
+        throw err;
+      }
+    },
+  );
+
+  app.get(
+    "/:id/metrics",
+    {
+      preHandler: [app.authenticate],
+    },
+    async (request, reply) => {
+      try {
+        const userId = request.user.sub;
+        const { id } = request.params as { id: string };
+        const query = metricsQuerySchema.parse(request.query);
+        return await getPortfolioMetricsService(id, userId, query);
+      } catch (err) {
+        if (err instanceof PortfolioNotFoundError) {
+          return reply.status(404).send({ message: err.message });
+        }
+        if (err instanceof MixedPortfolioAllocationError) {
+          return reply.status(400).send({ message: err.message, code: err.code });
+        }
+        if (err instanceof InsufficientPriceDataError) {
+          return reply.status(400).send({ message: err.message, code: err.code });
+        }
+        if (err instanceof CurrencyMismatchError) {
+          return reply.status(422).send({ message: err.message, code: err.code });
         }
         throw err;
       }
