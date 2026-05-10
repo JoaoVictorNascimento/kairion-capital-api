@@ -10,4 +10,5 @@
  */
 export type * from './models/User.js'
 export type * from './models/Asset.js'
+export type * from './models/Candle.js'
 export type * from './commonInputTypes.js'

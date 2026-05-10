@@ -21,3 +21,10 @@ export const AssetType = {
 } as const
 
 export type AssetType = (typeof AssetType)[keyof typeof AssetType]
+
+
+export const CandleInterval = {
+  DAY: 'DAY'
+} as const
+
+export type CandleInterval = (typeof CandleInterval)[keyof typeof CandleInterval]

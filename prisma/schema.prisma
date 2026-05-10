@@ -36,8 +36,30 @@ model Asset {
   currency  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  candles   Candle[]
 
   @@unique([symbol, exchange])
   @@index([symbol])
   @@index([exchange])
+}
+
+enum CandleInterval {
+  DAY
+}
+
+model Candle {
+  id          String         @id @default(cuid())
+  assetId     String
+  asset       Asset          @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  interval    CandleInterval
+  bucketStart DateTime
+  open        Decimal        @db.Decimal(18, 8)
+  high        Decimal        @db.Decimal(18, 8)
+  low         Decimal        @db.Decimal(18, 8)
+  close       Decimal        @db.Decimal(18, 8)
+  volume      Decimal        @db.Decimal(24, 2)
+  createdAt   DateTime       @default(now())
+
+  @@unique([assetId, interval, bucketStart])
+  @@index([assetId, interval, bucketStart])
 }

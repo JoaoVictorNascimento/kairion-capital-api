@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Asset: 'Asset'
+  Asset: 'Asset',
+  Candle: 'Candle'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -95,6 +96,22 @@ export const AssetScalarFieldEnum = {
 } as const
 
 export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
+
+
+export const CandleScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  interval: 'interval',
+  bucketStart: 'bucketStart',
+  open: 'open',
+  high: 'high',
+  low: 'low',
+  close: 'close',
+  volume: 'volume',
+  createdAt: 'createdAt'
+} as const
+
+export type CandleScalarFieldEnum = (typeof CandleScalarFieldEnum)[keyof typeof CandleScalarFieldEnum]
 
 
 export const SortOrder = {
