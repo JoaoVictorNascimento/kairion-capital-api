@@ -1,10 +1,10 @@
 import { Prisma } from "../../../generated/prisma/client.js";
 import type { BacktestRun } from "../../../generated/prisma/client.js";
 import { BacktestStrategy, CandleInterval } from "../../../generated/prisma/enums.js";
+import { computeBacktestMa } from "../../../lib/quantix/quantix-backtest-ma.js";
 import { findAssetById } from "../../assets/repositories/assets.repository.js";
 import { AssetNotFoundError } from "../../assets/services/errors.js";
 import { listDailyClosesInRange } from "../../market-data/repositories/candles.repository.js";
-import { runMovingAverageCrossover } from "../engine/moving-average-crossover.js";
 import {
   createBacktestRun,
   findBacktestByIdForUser,
@@ -27,6 +27,7 @@ export const MOVING_AVERAGE_BACKTEST_ASSUMPTIONS = {
 function formatBacktestDetail(
   run: BacktestRun,
   asset?: { id: string; symbol: string; name: string; exchange: string },
+  engine?: "quantix" | "ts",
 ) {
   return {
     backtest: {
@@ -53,7 +54,10 @@ function formatBacktestDetail(
       series: run.series,
       createdAt: run.createdAt.toISOString(),
     },
-    assumptions: MOVING_AVERAGE_BACKTEST_ASSUMPTIONS,
+    assumptions: {
+      ...MOVING_AVERAGE_BACKTEST_ASSUMPTIONS,
+      ...(engine ? { engine } : {}),
+    },
     limits: {
       maxRangeDays: MAX_BACKTEST_RANGE_DAYS,
       maxCandlesLoaded: ANALYTICS_MAX_CANDLES,
@@ -85,14 +89,17 @@ export async function runMovingAverageBacktestService(userId: string, body: Movi
   const closes = rows.map((r) => Number(r.close));
 
   let engineResult;
+  let engine: "quantix" | "ts";
   try {
-    engineResult = runMovingAverageCrossover({
+    const computed = await computeBacktestMa({
       bucketStarts,
       closes,
       fastPeriod: body.fastPeriod,
       slowPeriod: body.slowPeriod,
       initialCapital: body.initialCapital,
     });
+    engineResult = computed.result;
+    engine = computed.engine;
   } catch {
     throw new InsufficientHistoryForBacktestError();
   }
@@ -110,7 +117,7 @@ export async function runMovingAverageBacktestService(userId: string, body: Movi
     series: engineResult.series as unknown as Prisma.InputJsonValue,
   });
 
-  return formatBacktestDetail(run, asset);
+  return formatBacktestDetail(run, asset, engine);
 }
 
 export async function listBacktestsForUserService(userId: string) {
