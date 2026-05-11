@@ -1,10 +1,7 @@
 import { CandleInterval } from "../../../generated/prisma/enums.js";
+import { computeMetrics } from "../../../lib/quantix/quantix-metrics.js";
 import { listDailyClosesInRange } from "../../market-data/repositories/candles.repository.js";
-import {
-  closesToSimpleReturns,
-  metricsFromSimpleDailyReturns,
-  TRADING_DAYS_PER_YEAR,
-} from "../metrics.js";
+import { closesToSimpleReturns, TRADING_DAYS_PER_YEAR } from "../metrics.js";
 import type { MetricsQuery } from "../schemas/analytics.schemas.js";
 import { InsufficientPriceDataError } from "./errors.js";
 
@@ -24,7 +21,7 @@ export async function getAssetMetricsService(assetId: string, query: MetricsQuer
   }
 
   const returns = closesToSimpleReturns(closes);
-  const metrics = metricsFromSimpleDailyReturns(returns, RISK_FREE_ANNUAL);
+  const { metrics, engine } = await computeMetrics(returns, RISK_FREE_ANNUAL);
 
   return {
     period: {
@@ -37,6 +34,7 @@ export async function getAssetMetricsService(assetId: string, query: MetricsQuer
       tradingDaysPerYear: TRADING_DAYS_PER_YEAR,
       returnType: "simple" as const,
       riskFreeAnnual: RISK_FREE_ANNUAL,
+      engine,
     },
     metrics: {
       cumulativeReturn: metrics.cumulativeReturn,

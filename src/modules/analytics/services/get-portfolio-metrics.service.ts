@@ -1,8 +1,9 @@
 import { CandleInterval } from "../../../generated/prisma/enums.js";
+import { computeMetrics } from "../../../lib/quantix/quantix-metrics.js";
 import { listDailyClosesInRange } from "../../market-data/repositories/candles.repository.js";
 import { findPortfolioByIdForUser } from "../../portfolios/repositories/portfolios.repository.js";
 import { PortfolioNotFoundError } from "../../portfolios/services/errors.js";
-import { metricsFromSimpleDailyReturns, TRADING_DAYS_PER_YEAR } from "../metrics.js";
+import { TRADING_DAYS_PER_YEAR } from "../metrics.js";
 import type { MetricsQuery } from "../schemas/analytics.schemas.js";
 import {
   CurrencyMismatchError,
@@ -101,7 +102,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
       portfolioReturns.push(rp);
     }
 
-    const metrics = metricsFromSimpleDailyReturns(portfolioReturns, RISK_FREE_ANNUAL);
+    const { metrics, engine } = await computeMetrics(portfolioReturns, RISK_FREE_ANNUAL);
 
     return {
       period: {
@@ -116,6 +117,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
         riskFreeAnnual: RISK_FREE_ANNUAL,
         allocationMode: "targetWeight" as const,
         weightsNormalized,
+        engine,
       },
       metrics: {
         cumulativeReturn: metrics.cumulativeReturn,
@@ -144,7 +146,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
     portfolioReturns.push(v1 / v0 - 1);
   }
 
-  const metrics = metricsFromSimpleDailyReturns(portfolioReturns, RISK_FREE_ANNUAL);
+  const { metrics, engine } = await computeMetrics(portfolioReturns, RISK_FREE_ANNUAL);
 
   return {
     period: {
@@ -158,6 +160,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
       returnType: "simple" as const,
       riskFreeAnnual: RISK_FREE_ANNUAL,
       allocationMode: "quantity" as const,
+      engine,
     },
     metrics: {
       cumulativeReturn: metrics.cumulativeReturn,
