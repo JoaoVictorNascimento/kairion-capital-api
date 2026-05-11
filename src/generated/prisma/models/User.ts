@@ -191,6 +191,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   portfolios?: Prisma.PortfolioListRelationFilter
+  backtests?: Prisma.BacktestRunListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -201,6 +202,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   portfolios?: Prisma.PortfolioOrderByRelationAggregateInput
+  backtests?: Prisma.BacktestRunOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -214,6 +216,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   portfolios?: Prisma.PortfolioListRelationFilter
+  backtests?: Prisma.BacktestRunListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -248,6 +251,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   portfolios?: Prisma.PortfolioCreateNestedManyWithoutUserInput
+  backtests?: Prisma.BacktestRunCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -258,6 +262,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   portfolios?: Prisma.PortfolioUncheckedCreateNestedManyWithoutUserInput
+  backtests?: Prisma.BacktestRunUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -268,6 +273,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   portfolios?: Prisma.PortfolioUpdateManyWithoutUserNestedInput
+  backtests?: Prisma.BacktestRunUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -278,6 +284,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   portfolios?: Prisma.PortfolioUncheckedUpdateManyWithoutUserNestedInput
+  backtests?: Prisma.BacktestRunUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -361,6 +368,20 @@ export type UserUpdateOneRequiredWithoutPortfoliosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPortfoliosInput, Prisma.UserUpdateWithoutPortfoliosInput>, Prisma.UserUncheckedUpdateWithoutPortfoliosInput>
 }
 
+export type UserCreateNestedOneWithoutBacktestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBacktestsInput, Prisma.UserUncheckedCreateWithoutBacktestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBacktestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBacktestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBacktestsInput, Prisma.UserUncheckedCreateWithoutBacktestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBacktestsInput
+  upsert?: Prisma.UserUpsertWithoutBacktestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBacktestsInput, Prisma.UserUpdateWithoutBacktestsInput>, Prisma.UserUncheckedUpdateWithoutBacktestsInput>
+}
+
 export type UserCreateWithoutPortfoliosInput = {
   id?: string
   name: string
@@ -368,6 +389,7 @@ export type UserCreateWithoutPortfoliosInput = {
   passwordHash: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  backtests?: Prisma.BacktestRunCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPortfoliosInput = {
@@ -377,6 +399,7 @@ export type UserUncheckedCreateWithoutPortfoliosInput = {
   passwordHash: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  backtests?: Prisma.BacktestRunUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPortfoliosInput = {
@@ -402,6 +425,7 @@ export type UserUpdateWithoutPortfoliosInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backtests?: Prisma.BacktestRunUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPortfoliosInput = {
@@ -411,6 +435,63 @@ export type UserUncheckedUpdateWithoutPortfoliosInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  backtests?: Prisma.BacktestRunUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutBacktestsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  portfolios?: Prisma.PortfolioCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBacktestsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  portfolios?: Prisma.PortfolioUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutBacktestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBacktestsInput, Prisma.UserUncheckedCreateWithoutBacktestsInput>
+}
+
+export type UserUpsertWithoutBacktestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBacktestsInput, Prisma.UserUncheckedUpdateWithoutBacktestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBacktestsInput, Prisma.UserUncheckedCreateWithoutBacktestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBacktestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBacktestsInput, Prisma.UserUncheckedUpdateWithoutBacktestsInput>
+}
+
+export type UserUpdateWithoutBacktestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portfolios?: Prisma.PortfolioUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBacktestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portfolios?: Prisma.PortfolioUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -420,10 +501,12 @@ export type UserUncheckedUpdateWithoutPortfoliosInput = {
 
 export type UserCountOutputType = {
   portfolios: number
+  backtests: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   portfolios?: boolean | UserCountOutputTypeCountPortfoliosArgs
+  backtests?: boolean | UserCountOutputTypeCountBacktestsArgs
 }
 
 /**
@@ -443,6 +526,13 @@ export type UserCountOutputTypeCountPortfoliosArgs<ExtArgs extends runtime.Types
   where?: Prisma.PortfolioWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBacktestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BacktestRunWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -452,6 +542,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   portfolios?: boolean | Prisma.User$portfoliosArgs<ExtArgs>
+  backtests?: boolean | Prisma.User$backtestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -485,6 +576,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   portfolios?: boolean | Prisma.User$portfoliosArgs<ExtArgs>
+  backtests?: boolean | Prisma.User$backtestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -494,6 +586,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     portfolios: Prisma.$PortfolioPayload<ExtArgs>[]
+    backtests: Prisma.$BacktestRunPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -897,6 +990,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   portfolios<T extends Prisma.User$portfoliosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$portfoliosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortfolioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  backtests<T extends Prisma.User$backtestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$backtestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BacktestRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1346,6 +1440,30 @@ export type User$portfoliosArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.PortfolioScalarFieldEnum | Prisma.PortfolioScalarFieldEnum[]
+}
+
+/**
+ * User.backtests
+ */
+export type User$backtestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BacktestRun
+   */
+  select?: Prisma.BacktestRunSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BacktestRun
+   */
+  omit?: Prisma.BacktestRunOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacktestRunInclude<ExtArgs> | null
+  where?: Prisma.BacktestRunWhereInput
+  orderBy?: Prisma.BacktestRunOrderByWithRelationInput | Prisma.BacktestRunOrderByWithRelationInput[]
+  cursor?: Prisma.BacktestRunWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BacktestRunScalarFieldEnum | Prisma.BacktestRunScalarFieldEnum[]
 }
 
 /**
