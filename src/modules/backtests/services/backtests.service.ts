@@ -13,7 +13,11 @@ import {
 import type { MovingAverageBacktestBody } from "../schemas/backtests.schemas.js";
 import { MAX_BACKTEST_RANGE_DAYS } from "../schemas/backtests.schemas.js";
 import { ANALYTICS_MAX_CANDLES } from "../../market-data/repositories/candles.repository.js";
-import { BacktestNotFoundError, InsufficientHistoryForBacktestError } from "./errors.js";
+import {
+  BacktestNotFoundError,
+  InsufficientHistoryForBacktestError,
+  InvalidPriceSeriesError,
+} from "./errors.js";
 
 /** Documented semantics for clients (mirrors analytics `assumptions` pattern). */
 export const MOVING_AVERAGE_BACKTEST_ASSUMPTIONS = {
@@ -24,11 +28,14 @@ export const MOVING_AVERAGE_BACKTEST_ASSUMPTIONS = {
   tradingDaysPerYear: 252,
 } as const;
 
-function formatBacktestDetail(
-  run: BacktestRun,
-  asset?: { id: string; symbol: string; name: string; exchange: string },
-  engine?: "quantix" | "ts",
-) {
+type FormatBacktestDetailOptions = {
+  asset?: { id: string; symbol: string; name: string; exchange: string };
+  engine?: "quantix" | "ts";
+  truncated?: boolean;
+};
+
+function formatBacktestDetail(run: BacktestRun, options: FormatBacktestDetailOptions = {}) {
+  const { asset, engine, truncated } = options;
   return {
     backtest: {
       id: run.id,
@@ -61,6 +68,7 @@ function formatBacktestDetail(
     limits: {
       maxRangeDays: MAX_BACKTEST_RANGE_DAYS,
       maxCandlesLoaded: ANALYTICS_MAX_CANDLES,
+      ...(truncated !== undefined ? { truncated } : {}),
     },
   };
 }
@@ -71,7 +79,7 @@ export async function runMovingAverageBacktestService(userId: string, body: Movi
     throw new AssetNotFoundError();
   }
 
-  const rows = await listDailyClosesInRange({
+  const { rows, truncated } = await listDailyClosesInRange({
     assetId: body.assetId,
     interval: CandleInterval.DAY,
     from: body.from,
@@ -100,7 +108,10 @@ export async function runMovingAverageBacktestService(userId: string, body: Movi
     });
     engineResult = computed.result;
     engine = computed.engine;
-  } catch {
+  } catch (err) {
+    if (err instanceof InvalidPriceSeriesError) {
+      throw err;
+    }
     throw new InsufficientHistoryForBacktestError();
   }
 
@@ -117,7 +128,7 @@ export async function runMovingAverageBacktestService(userId: string, body: Movi
     series: engineResult.series as unknown as Prisma.InputJsonValue,
   });
 
-  return formatBacktestDetail(run, asset, engine);
+  return formatBacktestDetail(run, { asset, engine, truncated });
 }
 
 export async function listBacktestsForUserService(userId: string) {
@@ -149,5 +160,5 @@ export async function getBacktestByIdService(id: string, userId: string) {
     throw new BacktestNotFoundError();
   }
   const asset = await findAssetById(run.assetId);
-  return formatBacktestDetail(run, asset ?? undefined);
+  return formatBacktestDetail(run, { asset: asset ?? undefined });
 }
