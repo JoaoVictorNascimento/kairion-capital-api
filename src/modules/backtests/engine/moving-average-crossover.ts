@@ -1,3 +1,5 @@
+import { InvalidPriceSeriesError } from "../services/errors.js";
+
 /**
  * Long/cash moving-average crossover on daily closes.
  *
@@ -5,6 +7,10 @@
  * - Position `pos[t]` is applied to the **next** simple return `P[t+1]/P[t]-1` (no lookahead on same bar).
  * - Before warmup, `pos[t] = 0` (cash, zero strategy return).
  * - Buy-and-hold invests full capital from bar `slowPeriod - 1` onward (aligned start with comparable window).
+ * - Tie-breaker: when `SMA_fast === SMA_slow`, position is **cash** (`pos[t] = 0`). The
+ *   strategy only enters when fast strictly crosses above slow.
+ * - All closes must be finite and strictly positive — otherwise an
+ *   {@link InvalidPriceSeriesError} is thrown before any computation begins.
  */
 
 export type MovingAverageCrossoverParams = {
@@ -63,6 +69,17 @@ export function runMovingAverageCrossover(params: MovingAverageCrossoverParams):
   }
   if (n < slowPeriod + 1) {
     throw new Error("Not enough price observations for slow MA and one forward return");
+  }
+  for (let i = 0; i < n; i++) {
+    const c = closes[i]!;
+    if (!Number.isFinite(c) || c <= 0) {
+      throw new InvalidPriceSeriesError(
+        `Invalid close at index ${i}: must be a finite positive number (got ${c})`,
+      );
+    }
+  }
+  if (!Number.isFinite(initialCapital) || initialCapital <= 0) {
+    throw new InvalidPriceSeriesError("initialCapital must be a positive finite number");
   }
 
   const smaFast = rollingSma(closes, fastPeriod);
