@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { findUserByEmail } from "../../users/repositories/users.repository.js";
+import { InvalidCredentialsError } from "./errors.js";
 
 export async function loginUser(input: {
   email: string;
@@ -8,13 +9,13 @@ export async function loginUser(input: {
   const user = await findUserByEmail(input.email);
 
   if (!user) {
-    throw new Error("Invalid credentials");
+    throw new InvalidCredentialsError();
   }
 
   const passwordMatches = await bcrypt.compare(input.password, user.passwordHash);
 
   if (!passwordMatches) {
-    throw new Error("Invalid credentials");
+    throw new InvalidCredentialsError();
   }
 
   return user;
