@@ -8,7 +8,7 @@ import { InsufficientPriceDataError } from "./errors.js";
 const RISK_FREE_ANNUAL = 0;
 
 export async function getAssetMetricsService(assetId: string, query: MetricsQuery) {
-  const rows = await listDailyClosesInRange({
+  const { rows, truncated } = await listDailyClosesInRange({
     assetId,
     interval: CandleInterval.DAY,
     from: query.from,
@@ -29,6 +29,7 @@ export async function getAssetMetricsService(assetId: string, query: MetricsQuer
       to: query.to.toISOString(),
       priceObservations: closes.length,
       returnObservations: metrics.returnObservations,
+      truncated,
     },
     assumptions: {
       tradingDaysPerYear: TRADING_DAYS_PER_YEAR,
