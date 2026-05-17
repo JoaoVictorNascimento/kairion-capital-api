@@ -2,7 +2,10 @@ import { CandleInterval } from "../../../generated/prisma/enums.js";
 import { computeMetrics } from "../../../lib/quantix/quantix-metrics.js";
 import { listDailyClosesInRange } from "../../market-data/repositories/candles.repository.js";
 import { findPortfolioByIdForUser } from "../../portfolios/repositories/portfolios.repository.js";
-import { PortfolioNotFoundError } from "../../portfolios/services/errors.js";
+import {
+  InvalidAllocationError,
+  PortfolioNotFoundError,
+} from "../../portfolios/services/errors.js";
 import { TRADING_DAYS_PER_YEAR } from "../metrics.js";
 import type { MetricsQuery } from "../schemas/analytics.schemas.js";
 import {
@@ -36,7 +39,11 @@ function intersectionCloseMatrix(
   return perAsset.map(({ points }) => times.map((t) => points.get(t)!));
 }
 
-export async function getPortfolioMetricsService(portfolioId: string, userId: string, query: MetricsQuery) {
+export async function getPortfolioMetricsService(
+  portfolioId: string,
+  userId: string,
+  query: MetricsQuery,
+) {
   const portfolio = await findPortfolioByIdForUser(portfolioId, userId);
   if (!portfolio) {
     throw new PortfolioNotFoundError();
@@ -52,26 +59,33 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
   if (hasWeight && hasQty) {
     throw new MixedPortfolioAllocationError();
   }
+  if (!hasWeight && !hasQty) {
+    throw new InvalidAllocationError("Portfolio positions have no allocation set");
+  }
 
   const currencies = new Set(positions.map((p) => p.asset.currency));
   if (currencies.size > 1) {
     throw new CurrencyMismatchError();
   }
 
-  const perAsset: { assetId: string; points: Map<number, number> }[] = [];
-  for (const p of positions) {
-    const rows = await listDailyClosesInRange({
-      assetId: p.assetId,
-      interval: CandleInterval.DAY,
-      from: query.from,
-      to: query.to,
-    });
-    const points = new Map<number, number>();
-    for (const row of rows) {
-      points.set(row.bucketStart.getTime(), Number(row.close));
-    }
-    perAsset.push({ assetId: p.assetId, points });
-  }
+  const perAssetResults = await Promise.all(
+    positions.map(async (p) => {
+      const { rows, truncated } = await listDailyClosesInRange({
+        assetId: p.assetId,
+        interval: CandleInterval.DAY,
+        from: query.from,
+        to: query.to,
+      });
+      const points = new Map<number, number>();
+      for (const row of rows) {
+        points.set(row.bucketStart.getTime(), Number(row.close));
+      }
+      return { assetId: p.assetId, points, truncated };
+    }),
+  );
+
+  const truncated = perAssetResults.some((r) => r.truncated);
+  const perAsset = perAssetResults.map(({ assetId, points }) => ({ assetId, points }));
 
   const matrix = intersectionCloseMatrix(perAsset);
   if (!matrix) {
@@ -86,7 +100,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
     const rawW = positions.map((p) => Number(p.targetWeight));
     const sumW = rawW.reduce((a, b) => a + b, 0);
     if (sumW <= 0) {
-      throw new InsufficientPriceDataError("Invalid target weights");
+      throw new InvalidAllocationError("Target weights must sum to a positive number");
     }
     const w = rawW.map((x) => x / sumW);
     const weightsNormalized = Math.abs(sumW - 1) > WEIGHT_SUM_EPS;
@@ -110,6 +124,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
         to: query.to.toISOString(),
         alignedPriceObservations: k,
         returnObservations: metrics.returnObservations,
+        truncated,
       },
       assumptions: {
         tradingDaysPerYear: TRADING_DAYS_PER_YEAR,
@@ -141,7 +156,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
       v1 += quantities[i]! * matrix[i]![t + 1]!;
     }
     if (v0 === 0) {
-      throw new InsufficientPriceDataError("Portfolio value is zero on an aligned date");
+      throw new InvalidAllocationError("Portfolio market value is zero on an aligned date");
     }
     portfolioReturns.push(v1 / v0 - 1);
   }
@@ -154,6 +169,7 @@ export async function getPortfolioMetricsService(portfolioId: string, userId: st
       to: query.to.toISOString(),
       alignedPriceObservations: k,
       returnObservations: metrics.returnObservations,
+      truncated,
     },
     assumptions: {
       tradingDaysPerYear: TRADING_DAYS_PER_YEAR,

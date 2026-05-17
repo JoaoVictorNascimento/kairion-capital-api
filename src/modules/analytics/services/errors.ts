@@ -1,26 +1,27 @@
-export class InsufficientPriceDataError extends Error {
-  readonly code = "INSUFFICIENT_PRICE_DATA" as const;
+import { AppError } from "../../../shared/errors/app-error.js";
 
+export class InsufficientPriceDataError extends AppError {
   constructor(message = "Not enough price history for the selected range") {
-    super(message);
-    this.name = "InsufficientPriceDataError";
+    super(message, "INSUFFICIENT_PRICE_DATA", 400);
   }
 }
 
-export class MixedPortfolioAllocationError extends Error {
-  readonly code = "MIXED_ALLOCATION_NOT_SUPPORTED" as const;
-
+export class MixedPortfolioAllocationError extends AppError {
   constructor() {
-    super("Portfolio mixes target weights and quantities; use one allocation mode only");
-    this.name = "MixedPortfolioAllocationError";
+    super(
+      "Portfolio mixes target weights and quantities; use one allocation mode only",
+      "MIXED_ALLOCATION_NOT_SUPPORTED",
+      400,
+    );
   }
 }
 
-export class CurrencyMismatchError extends Error {
-  readonly code = "CURRENCY_MISMATCH" as const;
-
+export class CurrencyMismatchError extends AppError {
   constructor() {
-    super("Portfolio positions use different currencies; analytics requires a single currency");
-    this.name = "CurrencyMismatchError";
+    super(
+      "Portfolio positions use different currencies; analytics requires a single currency",
+      "CURRENCY_MISMATCH",
+      422,
+    );
   }
 }
